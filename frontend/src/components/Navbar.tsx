@@ -3,11 +3,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { UserButton } from './UserButton'
 
+
 interface NavbarProps {
   user: any
+  logout: () => void
 }
 
-export function Navbar({ user }: NavbarProps) {
+export function Navbar({ user, logout }: NavbarProps) {
   const navigate = useNavigate()
 
   return (
@@ -48,7 +50,7 @@ export function Navbar({ user }: NavbarProps) {
 
           {/* User Actions */}
           <div className="flex items-center space-x-4">
-            <UserButton user={user} />
+            <UserButton user={user} logout={logout} />
           </div>
         </div>
 

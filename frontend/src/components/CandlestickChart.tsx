@@ -21,63 +21,81 @@ export function CandlestickChart({
   useEffect(() => {
     if (!chartContainerRef.current || data.length === 0) return
 
-    // Create chart
-    const chart = createChart(chartContainerRef.current, {
-      width,
-      height,
-      layout: {
-        background: { color: '#ffffff' },
-        textColor: '#333333',
-      },
-      grid: {
-        vertLines: { color: '#f0f0f0' },
-        horzLines: { color: '#f0f0f0' },
-      },
-      crosshair: {
-        mode: 1,
-      },
-      timeScale: {
-        borderColor: '#cccccc',
-      },
-      rightPriceScale: {
-        borderColor: '#cccccc',
-      },
-    })
+    // Small delay to ensure container is rendered and has proper dimensions
+    const initializeChart = () => {
+      if (!chartContainerRef.current) return
 
-    // Add candlestick series
-    const candlestickSeries = chart.addCandlestickSeries({
-      upColor: '#10b981',
-      downColor: '#ef4444',
-      borderDownColor: '#ef4444',
-      borderUpColor: '#10b981',
-      wickDownColor: '#ef4444',
-      wickUpColor: '#10b981',
-    })
+      // Get the actual container width
+      const containerWidth = chartContainerRef.current.clientWidth || width
 
-    // Set data
-    candlestickSeries.setData(data)
+      console.log('📊 Initializing chart with container width:', containerWidth)
 
-    // Fit content
-    chart.timeScale().fitContent()
+      // Create chart with responsive dimensions
+      const chart = createChart(chartContainerRef.current, {
+        width: containerWidth,
+        height,
+        layout: {
+          background: { color: '#ffffff' },
+          textColor: '#333333',
+        },
+        grid: {
+          vertLines: { color: '#f0f0f0' },
+          horzLines: { color: '#f0f0f0' },
+        },
+        crosshair: {
+          mode: 1,
+        },
+        timeScale: {
+          borderColor: '#cccccc',
+        },
+        rightPriceScale: {
+          borderColor: '#cccccc',
+        },
+      })
 
-    // Store chart reference
-    chartRef.current = chart
+        // Add candlestick series
+      const candlestickSeries = chart.addCandlestickSeries({
+        upColor: '#10b981',
+        downColor: '#ef4444',
+        borderDownColor: '#ef4444',
+        borderUpColor: '#10b981',
+        wickDownColor: '#ef4444',
+        wickUpColor: '#10b981',
+      })
 
-    // Handle resize
-    const handleResize = () => {
-      if (chartContainerRef.current) {
-        const containerWidth = chartContainerRef.current.clientWidth
-        chart.applyOptions({ width: containerWidth })
+      // Set data
+      candlestickSeries.setData(data)
+
+      // Fit content
+      chart.timeScale().fitContent()
+
+      // Store chart reference
+      chartRef.current = chart
+
+      // Handle resize
+      const handleResize = () => {
+        if (chartContainerRef.current && chartRef.current) {
+          const containerWidth = chartContainerRef.current.clientWidth
+          console.log('📊 Resizing chart to width:', containerWidth)
+          chartRef.current.applyOptions({ width: containerWidth })
+        }
+      }
+
+      window.addEventListener('resize', handleResize)
+
+      return () => {
+        window.removeEventListener('resize', handleResize)
+        if (chartRef.current) {
+          chartRef.current.remove()
+        }
       }
     }
 
-    window.addEventListener('resize', handleResize)
+    // Small delay to ensure container dimensions are correct
+    const timer = setTimeout(initializeChart, 100)
 
     return () => {
-      window.removeEventListener('resize', handleResize)
-      if (chartRef.current) {
-        chartRef.current.remove()
-      }
+      clearTimeout(timer)
     }
   }, [data, width, height])
 
@@ -90,7 +108,7 @@ export function CandlestickChart({
   }
 
   return (
-    <div className="chart-container">
+    <div className="chart-container w-full overflow-hidden">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           {symbol} - {data.length} days
@@ -106,7 +124,7 @@ export function CandlestickChart({
           </div>
         </div>
       </div>
-      <div ref={chartContainerRef} />
+      <div ref={chartContainerRef} className="w-full" style={{ minHeight: `${height}px` }} />
     </div>
   )
 }

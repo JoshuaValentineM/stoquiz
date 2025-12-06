@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
 import { quizAPI } from '../utils/api'
@@ -12,22 +13,34 @@ interface QuizInterfaceProps {
 }
 
 export function QuizInterface({ quiz }: QuizInterfaceProps) {
+  const navigate = useNavigate()
   const [selectedAnswer, setSelectedAnswer] = useState<'up' | 'down' | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [result, setResult] = useState<QuizResult | null>(null)
 
   const submitAnswerMutation = useMutation(
     async (answer: QuizAnswer) => {
-      return quizAPI.submitAnswer(quiz.id, answer)
+      console.log('🎯 Submitting quiz answer:', { quizId: quiz.id, answer })
+      const result = await quizAPI.submitAnswer(quiz.id, answer)
+      console.log('✅ Quiz answer submitted successfully:', result)
+      return result
     },
     {
       onSuccess: (data) => {
+        console.log('🎉 Quiz submission success:', data)
         setResult(data)
         setShowResult(true)
         toast.success(`Answer submitted! ${data.correct ? '✅ Correct!' : '❌ Incorrect'}`)
       },
       onError: (error: any) => {
-        toast.error(error.response?.data?.error || 'Failed to submit answer')
+        console.log('❌ Quiz submission error:', error)
+        if (error.response?.status === 401) {
+          console.log('🚫 Authentication error during quiz submission!')
+          toast.error('You were logged out. Please sign in again.')
+          // Don't navigate here, let the error interceptor handle it
+        } else {
+          toast.error(error.response?.data?.error || 'Failed to submit answer')
+        }
       }
     }
   )
@@ -38,8 +51,9 @@ export function QuizInterface({ quiz }: QuizInterfaceProps) {
   }
 
   const handleNewQuiz = () => {
-    // Reload the page to get a new quiz
-    window.location.reload()
+    // Navigate to the same quiz type to get a new quiz
+    const quizType = quiz.type || 'technical'
+    navigate(`/quiz/${quizType}`)
   }
 
   const formatNumber = (num: number | undefined) => {

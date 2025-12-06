@@ -17,7 +17,8 @@ export function HomePage() {
       >
         <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
           Test Your
-          <span className="text-blue-600 dark:text-blue-400"> Stock Analysis</span>
+          <span className="text-blue-600 dark:text-blue-400"> Stock</span>
+          <span className="text-[#ed8eb8] dark:text-[#ed8eb8]"> Analysis</span>
           <br />
           Skills
         </h1>
@@ -35,7 +36,7 @@ export function HomePage() {
           </Link>
           <Link
             to="/quiz/fundamental"
-            className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors text-lg"
+            className="bg-[#ed8eb8] hover:bg-[#d97aa3] text-white px-8 py-3 rounded-lg font-semibold transition-colors text-lg"
           >
             💰 Fundamental Analysis
           </Link>

@@ -25,6 +25,10 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    console.log('🌐 API Request:', config.method?.toUpperCase(), config.url, {
+      hasAuth: !!token,
+      tokenPreview: token ? `${token.substring(0, 20)}...` : 'NONE'
+    })
     return config
   },
   (error) => {
@@ -34,8 +38,18 @@ apiClient.interceptors.request.use(
 
 // Response interceptor for error handling
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('✅ API Response:', response.config.method?.toUpperCase(), response.config.url, {
+      status: response.status,
+      dataPreview: typeof response.data === 'object' ? 'OBJECT' : response.data?.substring(0, 50)
+    })
+    return response
+  },
   (error) => {
+    console.log('❌ API Error:', error.config?.method?.toUpperCase(), error.config?.url, {
+      status: error.response?.status,
+      message: error.response?.data?.error || error.message
+    })
     if (error.response?.status === 401) {
       localStorage.removeItem('authToken')
       window.location.href = '/auth'
