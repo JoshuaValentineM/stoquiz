@@ -1,0 +1,66 @@
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: stoquiz-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stoquiz
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - stoquiz-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: stoquiz-backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/stoquiz
+      PORT: 4000
+      NODE_ENV: development
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    volumes:
+      - ./backend/src:/app/backend/src
+      - ./backend/prisma:/app/backend/prisma
+      - ./backend/tsconfig.json:/app/backend/tsconfig.json
+      - /app/backend/node_modules
+    networks:
+      - stoquiz-network
+    command: pnpm --filter @stoquiz/backend dev
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: stoquiz-frontend
+    environment:
+      VITE_API_URL: http://localhost:4000
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/frontend/src
+      - ./frontend/index.html:/app/frontend/index.html
+      - ./frontend/vite.config.ts:/app/frontend/vite.config.ts
+      - ./frontend/tsconfig.json:/app/frontend/tsconfig.json
+      - ./frontend/tsconfig.node.json:/app/frontend/tsconfig.node.json
+      - ./frontend/postcss.config.cjs:/app/frontend/postcss.config.cjs
+      - ./frontend/tailwind.config.js:/app/frontend/tailwind.config.js
+      - /app/frontend/node_modules
+    networks:
+      - stoquiz-network
+    command: pnpm --filter @stoquiz/frontend dev
+
+volumes:
+  postgres_data:
+
+networks:
+  stoquiz-network:
+    driver: bridge

@@ -1,0 +1,28 @@
+{
+  "name": "stoquiz",
+  "version": "1.0.0",
+  "description": "Stock analysis quiz game with real historical market data",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend",
+    "db"
+  ],
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "build": "pnpm --filter backend build && pnpm --filter frontend build",
+    "test": "pnpm --filter backend test && pnpm --filter frontend test",
+    "lint": "pnpm --filter backend lint && pnpm --filter frontend lint",
+    "type-check": "pnpm --filter backend type-check && pnpm --filter frontend type-check",
+    "clean": "pnpm --filter backend clean && pnpm --filter frontend clean"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "@types/node": "^20.10.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.10.0"
+}

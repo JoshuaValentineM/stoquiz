@@ -1,0 +1,92 @@
+// This is your Prisma schema file for SQLite,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id          String   @id @default(cuid())
+  username    String?  @unique
+  passwordHash String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userScores UserScore[]
+  @@map("users")
+}
+
+model Stock {
+  symbol      String   @id
+  name        String
+  exchange    String
+  lastFetched DateTime @default(now())
+
+  ohlcv       Ohlcv[]
+  fundamentals Fundamentals[]
+  quizzes     Quiz[]
+  @@map("stocks")
+}
+
+model Ohlcv {
+  id       Int      @id @default(autoincrement())
+  symbol   String
+  dt       DateTime
+  open     Float
+  high     Float
+  low      Float
+  close    Float
+  volume   Int
+  timeframe String  @default("1d")
+
+  stock Stock @relation(fields: [symbol], references: [symbol])
+
+  @@unique([symbol, dt, timeframe])
+  @@map("ohlcv")
+}
+
+model Fundamentals {
+  id         Int      @id @default(autoincrement())
+  symbol     String
+  reportDate DateTime
+  field      String   // SQLite doesn't have JSON, using String instead
+  createdAt  DateTime @default(now())
+
+  stock Stock @relation(fields: [symbol], references: [symbol])
+
+  @@map("fundamentals")
+}
+
+model Quiz {
+  id            String   @id @default(cuid())
+  type          String   // 'technical' | 'fundamental'
+  symbol        String
+  payload       String   // SQLite doesn't have JSON, using String instead
+  correctAnswer String
+  createdAt     DateTime @default(now())
+
+  stock        Stock       @relation(fields: [symbol], references: [symbol])
+  userScores   UserScore[]
+
+  @@map("quizzes")
+}
+
+model UserScore {
+  id        String   @id @default(cuid())
+  userId    String
+  quizId    String
+  answer    String
+  correct   Boolean
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz Quiz @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, quizId])
+  @@map("user_scores")
+}
