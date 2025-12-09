@@ -27,7 +27,7 @@ COPY db/src ./db/src
 COPY db/prisma ./db/prisma
 
 # Generate Prisma client
-RUN pnpm --filter @stoquiz/db generate
+RUN cd backend && pnpm exec prisma generate --schema=./prisma/schema.prod.prisma
 
 # Build the application
 RUN pnpm --filter @stoquiz/backend build
