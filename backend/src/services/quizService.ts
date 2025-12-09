@@ -1,4 +1,4 @@
-import PrismaClient from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import { createError } from '../middleware/errorHandler.js'
 import type { QuizResponse, QuizAnswer, QuizResult } from '../types/index.js'
 import { technicalQuizzes, fundamentalQuizzes } from '../data/predefinedQuizzes.js'
