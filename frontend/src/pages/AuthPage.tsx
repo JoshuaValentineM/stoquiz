@@ -29,6 +29,9 @@ export function AuthPage() {
   const navigate = useNavigate()
   const { login, signup } = useAuth()
 
+  // Debug: Show API URL
+  console.log('🔗 AuthPage: VITE_API_URL =', import.meta.env.VITE_API_URL)
+
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   })
