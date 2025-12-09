@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit'
 import { authRoutes } from './routes/auth.js'
 import { quizRoutes } from './routes/quiz.js'
 import { errorHandler } from './middleware/errorHandler.js'
+import { runMigrations } from './utils/migrate.js'
 
 // Load environment based on NODE_ENV
 if (process.env.NODE_ENV === 'production') {
@@ -69,7 +70,17 @@ app.use('*', (req, res) => {
   res.status(404).json({ error: 'Route not found' })
 })
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`)
-  console.log(`🌍 Environment: ${process.env.NODE_ENV}`)
-})
+// Start server with migrations
+async function startServer() {
+  // Run migrations in production
+  if (process.env.NODE_ENV === 'production') {
+    await runMigrations()
+  }
+
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`)
+    console.log(`🌍 Environment: ${process.env.NODE_ENV}`)
+  })
+}
+
+startServer().catch(console.error)
