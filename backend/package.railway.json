@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "StoQuiz backend API",
   "private": true,
-  "type": "module",
-  "scripts": {
+    "scripts": {
     "dev": "tsx watch src/index.ts",
     "prebuild": "echo 'Prisma client already generated in Dockerfile'",
     "build": "tsc",
