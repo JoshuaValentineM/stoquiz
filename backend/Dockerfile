@@ -3,35 +3,23 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Install OpenSSL and dependencies for Prisma
-RUN apk add --no-cache openssl openssl-dev libc6-compat sqlite
+RUN apk add --no-cache openssl openssl-dev libc6-compat
 
-# Install pnpm
-RUN npm install -g pnpm
-
-# Copy workspace files
-COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
-
-# Copy packages
-COPY backend/package.json ./backend/
-COPY db/package.json ./db/
-COPY frontend/package.json ./frontend/
+# Copy Railway package.json (without workspace dependencies)
+COPY package.railway.json ./package.json
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN npm install
 
 # Copy source code
-COPY backend/src ./backend/src
-COPY backend/tsconfig.json ./backend/
-COPY backend/prisma ./backend/prisma
-COPY db/src ./db/src
-COPY db/prisma ./db/prisma
+COPY . .
 
 # Generate Prisma client
-RUN cd backend && pnpm exec prisma generate --schema=./prisma/schema.prod.prisma
+RUN npx prisma generate --schema=./prisma/schema.prod.prisma
 
 # Build the application
-RUN pnpm --filter @stoquiz/backend build
+RUN npm run build
 
 EXPOSE 4000
 
-CMD ["pnpm", "--filter", "@stoquiz/backend", "start"]
+CMD ["node", "dist/index.js"]
