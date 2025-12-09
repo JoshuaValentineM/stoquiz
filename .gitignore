@@ -1,3 +1,17 @@
+# Environment and secret files
+backend/.env*
+frontend/.env*
+backend/src/config/*.secret*
+frontend/src/utils/api.prod.ts
+# Database files
+*.db
+# Deployment secrets
+nixpacks.toml
+raillway.toml
+# Ignore deployment documentation
+DEPLOYMENT.md
+PRE-DEPLOYMENT-CHECKLIST.md
+DEPLOYMENT-STEP-BY-STEP.md
 # Ignore StoQuizGame.md
 StoQuizGame.md
 # Dependencies

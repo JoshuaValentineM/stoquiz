@@ -8,10 +8,15 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+    "start:prod": "NODE_ENV=production node dist/index.js",
     "test": "jest",
     "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "db:generate": "prisma generate --schema=./prisma/schema.prod.prisma",
+    "db:migrate": "prisma migrate dev --schema=./prisma/schema.prod.prisma",
+    "db:push": "prisma db push --schema=./prisma/schema.prod.prisma",
+    "db:studio": "prisma studio --schema=./prisma/schema.prod.prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.6.0",

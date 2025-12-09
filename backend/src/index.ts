@@ -8,7 +8,12 @@ import { authRoutes } from './routes/auth.js'
 import { quizRoutes } from './routes/quiz.js'
 import { errorHandler } from './middleware/errorHandler.js'
 
-dotenv.config()
+// Load environment based on NODE_ENV
+if (process.env.NODE_ENV === 'production') {
+  dotenv.config({ path: '.env.production' })
+} else {
+  dotenv.config()
+}
 
 const app = express()
 const PORT = process.env.PORT || 4000
@@ -32,7 +37,7 @@ app.use(helmet({
   },
 }))
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: process.env.CORS_ORIGIN || process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }))
 if (process.env.NODE_ENV === 'production') {
