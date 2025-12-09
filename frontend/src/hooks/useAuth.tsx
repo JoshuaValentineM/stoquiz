@@ -33,7 +33,9 @@ export function useAuth(): AuthState {
   useEffect(() => {
     const update = () => forceUpdate({})
     globalAuthState.listeners.add(update)
-    return () => globalAuthState.listeners.delete(update)
+    return () => {
+      globalAuthState.listeners.delete(update)
+    }
   }, [])
 
   const setUser = useCallback((user: User | null) => {
@@ -192,7 +194,7 @@ export function useAuth(): AuthState {
     notifyListeners()
 
     console.log('✅ Logout completed - new state:', {
-      user: globalAuthState.user?.username,
+      user: (globalAuthState.user as any)?.username || 'none',
       hasToken: !!globalAuthState.token,
       hasTokenValue: globalAuthState.token
     })
