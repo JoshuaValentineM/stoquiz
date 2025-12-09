@@ -6,7 +6,8 @@ WORKDIR /app
 RUN apk add --no-cache openssl openssl-dev libc6-compat
 
 # Copy Railway package.json (without workspace dependencies)
-COPY package.railway.json ./package.json
+COPY package.railway.json temp-package.json
+RUN rm -f package.json && mv temp-package.json package.json
 
 # Install dependencies
 RUN npm install
