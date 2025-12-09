@@ -1,3 +1,5 @@
+# Ignore StoQuizGame.md
+StoQuizGame.md
 # Dependencies
 node_modules/
 npm-debug.log*

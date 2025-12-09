@@ -51,9 +51,10 @@ export function QuizInterface({ quiz }: QuizInterfaceProps) {
   }
 
   const handleNewQuiz = () => {
-    // Navigate to the same quiz type to get a new quiz
+    // Navigate to the same quiz type with timestamp to force new quiz
     const quizType = quiz.type || 'technical'
-    navigate(`/quiz/${quizType}`)
+    const timestamp = Date.now()
+    navigate(`/quiz/${quizType}?t=${timestamp}`, { replace: true })
   }
 
   const formatNumber = (num: number | undefined) => {
@@ -90,12 +91,20 @@ export function QuizInterface({ quiz }: QuizInterfaceProps) {
               {quiz.type === 'technical' ? '📈 Technical Analysis' : '💰 Fundamental Analysis'}
             </h1>
             <p className="text-gray-600 dark:text-gray-300">
-              Analyze the data and predict if {quiz.symbol} will go UP or DOWN in the next {quiz.horizonDays} days
+              Analyze the data and predict if {quiz.payload.stockName || quiz.symbol} will go UP or DOWN in the next {quiz.horizonDays} days
             </p>
+            {quiz.payload.period && (
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Period: {quiz.payload.period}
+              </p>
+            )}
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-500 dark:text-gray-400">Stock</div>
-            <div className="text-lg font-semibold text-gray-900 dark:text-white">{quiz.symbol}</div>
+            <div className="text-lg font-semibold text-gray-900 dark:text-white">
+              {quiz.payload.stockName || quiz.symbol}
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">{quiz.symbol}</div>
           </div>
         </div>
       </div>
@@ -108,6 +117,11 @@ export function QuizInterface({ quiz }: QuizInterfaceProps) {
             <div className="quiz-card">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 Candlestick Chart - {quiz.payload.chartPeriod}
+                {quiz.payload.pattern && (
+                  <span className="ml-2 text-sm font-normal text-blue-600 dark:text-blue-400">
+                    Pattern: {quiz.payload.pattern}
+                  </span>
+                )}
               </h2>
               {quiz.payload.candles && (
                 <CandlestickChart
@@ -118,7 +132,7 @@ export function QuizInterface({ quiz }: QuizInterfaceProps) {
                     low: candle.low,
                     close: candle.close
                   }))}
-                  symbol={quiz.symbol}
+                  symbol={quiz.payload.stockName || quiz.symbol}
                 />
               )}
             </div>
@@ -255,21 +269,68 @@ export function QuizInterface({ quiz }: QuizInterfaceProps) {
 
           <div className="quiz-card mt-6">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Tips
+              Pattern Analysis Tips
             </h3>
-            {quiz.type === 'technical' ? (
+            {quiz.type === 'technical' && quiz.payload.pattern ? (
+              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                <p>• <strong>Pattern:</strong> {quiz.payload.pattern}</p>
+                {quiz.payload.pattern === 'Head and Shoulders' && (
+                  <>
+                    <p>• Look for three peaks with the middle one highest</p>
+                    <p>• Breaking the neckline suggests downtrend continuation</p>
+                    <p>• Volume typically decreases as pattern forms</p>
+                  </>
+                )}
+                {quiz.payload.pattern === 'Bull Flag' && (
+                  <>
+                    <p>• Sharp rise (pole) followed by consolidation (flag)</p>
+                    <p>• Breakout above flag resistance suggests continuation</p>
+                    <p>• Pattern duration is typically short (1-3 weeks)</p>
+                  </>
+                )}
+                {quiz.payload.pattern === 'Double Bottom' && (
+                  <>
+                    <p>• W-shaped pattern with equal lows</p>
+                    <p>• Breakout above middle peak confirms reversal</p>
+                    <p>• Shows exhaustion of selling pressure</p>
+                  </>
+                )}
+                {quiz.payload.pattern === 'Cup and Handle' && (
+                  <>
+                    <p>• U-shaped cup followed by small pullback (handle)</p>
+                    <p>• Handle should be small relative to cup depth</p>
+                    <p>• Breakout from handle signals continuation</p>
+                  </>
+                )}
+                {quiz.payload.pattern === 'Ascending Triangle' && (
+                  <>
+                    <p>• Flat resistance with rising support</p>
+                    <p>• Buying pressure building up over time</p>
+                    <p>• Breakout above resistance typically explosive</p>
+                  </>
+                )}
+                {!['Head and Shoulders', 'Bull Flag', 'Double Bottom', 'Cup and Handle', 'Ascending Triangle'].includes(quiz.payload.pattern) && (
+                  <>
+                    <p>• Analyze the chart structure carefully</p>
+                    <p>• Consider trend direction and momentum</p>
+                    <p>• Watch for volume confirmation</p>
+                    <p>• Remember: past performance doesn't guarantee future results</p>
+                  </>
+                )}
+              </div>
+            ) : quiz.type === 'fundamental' ? (
+              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                <p>• Analyze all financial metrics holistically</p>
+                <p>• Compare with historical performance</p>
+                <p>• Consider broader market conditions</p>
+                <p>• Management guidance is often a key indicator</p>
+              </div>
+            ) : (
               <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
                 <p>• Look for patterns like support/resistance levels</p>
                 <p>• Consider trend direction and momentum</p>
                 <p>• Watch for candlestick patterns and volume spikes</p>
                 <p>• Remember: past performance doesn't guarantee future results</p>
-              </div>
-            ) : (
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                <p>• Compare P/E ratio with industry averages</p>
-                <p>• Look for consistent revenue and earnings growth</p>
-                <p>• Consider debt levels and profit margins</p>
-                <p>• Lower P/E with good growth might be undervalued</p>
               </div>
             )}
           </div>

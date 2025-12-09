@@ -4,6 +4,9 @@ export interface QuizResponse {
   symbol: string
   payload: {
     symbol: string
+    stockName?: string
+    period?: string
+    pattern?: string
     snapshot?: {
       date: string
       pe?: number
@@ -24,6 +27,7 @@ export interface QuizResponse {
     }>
     chartPeriod?: string
     predictionDays?: number
+    explanation?: string
   }
   horizonDays: number
 }

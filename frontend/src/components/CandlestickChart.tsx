@@ -21,9 +21,19 @@ export function CandlestickChart({
   useEffect(() => {
     if (!chartContainerRef.current || data.length === 0) return
 
+    // Clean up any existing chart
+    if (chartRef.current) {
+      console.log('🗑️ Removing existing chart')
+      chartRef.current.remove()
+      chartRef.current = null
+    }
+
     // Small delay to ensure container is rendered and has proper dimensions
     const initializeChart = () => {
       if (!chartContainerRef.current) return
+
+      // Clear any existing content
+      chartContainerRef.current.innerHTML = ''
 
       // Get the actual container width
       const containerWidth = chartContainerRef.current.clientWidth || width
@@ -53,7 +63,7 @@ export function CandlestickChart({
         },
       })
 
-        // Add candlestick series
+      // Add candlestick series
       const candlestickSeries = chart.addCandlestickSeries({
         upColor: '#10b981',
         downColor: '#ef4444',
@@ -87,6 +97,7 @@ export function CandlestickChart({
         window.removeEventListener('resize', handleResize)
         if (chartRef.current) {
           chartRef.current.remove()
+          chartRef.current = null
         }
       }
     }
@@ -94,10 +105,15 @@ export function CandlestickChart({
     // Small delay to ensure container dimensions are correct
     const timer = setTimeout(initializeChart, 100)
 
+    // Cleanup function
     return () => {
       clearTimeout(timer)
+      if (chartRef.current) {
+        chartRef.current.remove()
+        chartRef.current = null
+      }
     }
-  }, [data, width, height])
+  }, [data, width, height, symbol])
 
   if (data.length === 0) {
     return (

@@ -1,5 +1,5 @@
-import React from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { motion } from 'framer-motion'
 import { quizAPI } from '../utils/api'
@@ -11,6 +11,7 @@ import type { QuizResponse } from '../types'
 export function QuizPage() {
   const { type = 'technical' } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const {
     data: quiz,
@@ -18,11 +19,12 @@ export function QuizPage() {
     error,
     refetch
   } = useQuery(
-    ['quiz', type],
+    ['quiz', type, location.key], // Add location.key to force refetch
     () => quizAPI.getQuiz(type as 'technical' | 'fundamental'),
     {
       retry: 2,
       staleTime: 0, // Always fetch fresh quiz
+      cacheTime: 0, // Don't cache at all
     }
   )
 

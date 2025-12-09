@@ -69,23 +69,62 @@ docker exec stoquiz-backend pnpm --filter @stoquiz/db db:push
 
 ### Database Issues
 
-#### Problem: Cannot access database
-**Solution**: Copy database file to host:
+#### Problem: Cannot access PostgreSQL database
+**Solution**: Access via Docker container:
 ```bash
-docker cp stoquiz-backend:/app/db/prisma/dev.db ./stoquiz.db
+docker-compose exec postgres psql -U postgres -d stoquiz
 ```
 
 #### Problem: Database empty
 **Solution**: Create demo data via API endpoints
 
-### Authentication Issues
+### Authentication Issues (Current Session Fixes)
 
-#### Problem: Login redirect loops
-**Solution**: Check JWT_SECRET environment variable
-- Set in backend/.env or use default
+#### Problem: UI flickers between "Sign In" and username on page load
+**Cause**: Multiple useAuth instances with inconsistent state timing
+**Symptoms**:
+- Button shows "Sign In" briefly then changes to username
+- Multiple API calls to `/api/auth/me` (5+ calls)
+- Race conditions between component initialization
 
-#### Problem: Token invalid/expired
-**Solution**: Tokens expire in 7 days, re-login required
+**Solution**: Implemented global auth state management in `useAuth.tsx`
+```typescript
+// Global auth state to share across components
+let globalAuthState = {
+  user: null as User | null,
+  token: null as string | null,
+  isLoading: true as boolean, // Start with true to ensure auth check completes
+  listeners: new Set<() => void>(),
+  initialized: false as boolean,
+  fetchingUser: false as boolean,
+}
+```
+
+#### Problem: Can't access /profile page directly via URL
+**Cause**: Profile page redirects to /auth before authentication completes
+**Symptoms**:
+- Direct navigation to `/profile` redirects to `/auth`
+- Works when clicking navbar button but not URL entry
+- Race condition between auth loading and route protection
+
+**Solution**: Proper loading state management
+```typescript
+// Only redirect if definitely no user and not loading
+if (!user && !isLoading) {
+  navigate('/auth')
+}
+```
+
+#### Problem: Logout button on profile page doesn't work
+**Cause**: Logout function not imported from useAuth hook
+**Solution**: Add logout to destructured imports:
+```typescript
+const { user, isLoading, isAuthenticated, logout } = useAuth()
+```
+
+#### Problem: Page shows "Loading StoQuiz..." forever
+**Cause**: Over-aggressive duplicate prevention in fetchUser function
+**Solution**: Balance between deduplication and allowing actual API calls
 
 ## 🔧 Debugging Commands
 
@@ -102,16 +141,23 @@ curl http://localhost:5173
 curl http://localhost:4000/api/quiz/leaderboard
 ```
 
-### Database Operations
+### Database Operations (PostgreSQL)
 ```bash
-# Copy database
-docker cp stoquiz-backend:/app/db/prisma/dev.db ./stoquiz.db
+# Access database
+docker-compose exec postgres psql -U postgres -d stoquiz
 
-# Check tables (if sqlite available)
-docker exec stoquiz-backend sqlite3 /app/db/prisma/dev.db ".tables"
+# Check tables
+\dt
 
-# Reset database
-docker exec stoquiz-backend pnpm --filter @stoquiz/db db:push --force-reset
+# View users
+SELECT * FROM "User";
+
+# View quizzes
+SELECT * FROM "Quiz" LIMIT 10;
+
+# Reset database (DANGEROUS - deletes all data)
+docker-compose down -v
+docker-compose up --build
 ```
 
 ### Frontend Development
@@ -145,13 +191,15 @@ docker-compose up --build
 
 ### Database Reset Only
 ```bash
-docker exec stoquiz-backend pnpm --filter @stoquiz/db db:push --force-reset
-# Re-create demo accounts via API
+# WARNING: Deletes all data including users and quiz history
+docker-compose down -v
+docker-compose up --build --force-recreate
 ```
 
 ### Frontend Reset Only
 ```bash
 docker-compose restart frontend
+# Clear browser localStorage if needed
 ```
 
 ### Backend Reset Only
@@ -163,13 +211,12 @@ docker-compose restart backend
 
 ### Required Files
 - `backend/.env` (optional, uses defaults if missing)
-- Frontend uses Vite API_URL from docker-compose.yml
+- Frontend uses VITE_API_URL from docker-compose.yml
 
 ### Port Conflicts
 - Frontend: 5173
 - Backend: 4000
-- Database: 5432 (PostgreSQL) or file (SQLite)
-- Prisma Studio: 5555 (if using)
+- Database: 5433 (PostgreSQL)
 
 ## 🎯 Quick Health Check
 
@@ -210,15 +257,43 @@ StoQuiz/
 ```
 
 ### Key Technologies
-- **Frontend**: React, TypeScript, Vite, Tailwind CSS
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, Lightweight Charts
 - **Backend**: Node.js, Express, TypeScript, Prisma
-- **Database**: SQLite with Prisma ORM
+- **Database**: PostgreSQL with Prisma ORM
 - **Infrastructure**: Docker, Docker Compose
 
 ### Common Debugging Strategy
-1. Check container logs
-2. Verify database connection
+1. Check container logs for errors
+2. Verify database connection with PostgreSQL commands
 3. Test API endpoints directly
-4. Check network connectivity between containers
-5. Verify environment variables
-6. Check file mounts in containers
+4. Check browser console for auth state logs
+5. Monitor network tab for duplicate API calls
+6. Verify localStorage for authToken presence
+7. Check file mounts in containers
+
+### Debugging Authentication Issues
+1. **Check browser console** for auth state logs:
+   - Look for `🔍 useAuth hook initialized`
+   - Check for `✅ fetchUser success` messages
+2. **Check localStorage**:
+   ```javascript
+   localStorage.getItem('authToken') // Should return token string
+   ```
+3. **Monitor Network tab**:
+   - Should see only 1 call to `/api/auth/me` on page load
+   - Check for 401 responses indicating expired tokens
+4. **Test API endpoints directly**:
+   ```bash
+   curl -H "Authorization: Bearer <token>" http://localhost:4000/api/auth/me
+   ```
+
+### Debugging Chart Issues
+1. **Check console for chart initialization logs**:
+   - Look for `📊 Initializing chart with container width`
+   - Check for `📊 Resizing chart to width` messages
+2. **Verify container dimensions**:
+   - Chart should fit within parent container
+   - No overflow into sidebar area
+3. **Test responsive behavior**:
+   - Window resize should trigger chart resize
+   - Zoom in/out should fix sizing issues
