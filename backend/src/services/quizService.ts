@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import PrismaClient from '@prisma/client'
 import { createError } from '../middleware/errorHandler.js'
 import type { QuizResponse, QuizAnswer, QuizResult } from '../types/index.js'
 import { technicalQuizzes, fundamentalQuizzes } from '../data/predefinedQuizzes.js'
@@ -232,7 +232,7 @@ export class QuizService {
 
     // Sort by total score and limit results
     return results
-      .sort((a, b) => b.totalScore - a.totalScore)
+      .sort((a: any, b: any) => b.totalScore - a.totalScore)
       .slice(0, limit)
   }
 }
