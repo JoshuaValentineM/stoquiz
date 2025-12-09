@@ -1,163 +1,267 @@
 # StoQuiz - Quick Start Guide
 
-## 🚀 5-Minute Startup
+## 🚀 Project Overview
 
-### 1. Start the Application
+StoQuiz is a stock market quiz application that tests users' knowledge of technical and fundamental analysis using real historical market data. The app consists of a React frontend and Node.js backend deployed on Vercel and Railway respectively.
+
+## 🌐 Live Application
+
+- **Frontend**: https://stoquiz.vercel.app
+- **Backend API**: https://stoquiz-backend-production.up.railway.app
+
+## 🏗️ Architecture
+
+- **Frontend**: React + TypeScript + Vite (deployed on Vercel)
+- **Backend**: Node.js + Express + TypeScript (deployed on Railway)
+- **Database**: PostgreSQL (hosted on Railway)
+- **Authentication**: JWT-based auth system
+- **Quiz Engine**: Dynamic quiz generation with real stock data
+
+## 📦 Installation & Setup
+
+### Prerequisites
+- Node.js 18+
+- npm/pnpm
+- GitHub account
+- Railway account
+- Vercel account
+
+### Local Development
+
 ```bash
-cd D:\Kuliah-Coding\StoQuiz
-docker-compose up --build --force-recreate
+# Clone the repository
+git clone https://github.com/JoshuaValentineM/stoquiz.git
+cd stoquiz
+
+# Install all dependencies (from root)
+pnpm install
+
+# Start development servers
+pnpm dev
 ```
 
-### 2. Verify Services
+This will start:
 - Frontend: http://localhost:5173
-- Backend Health: http://localhost:4000/health
-- Database: PostgreSQL on port 5433
+- Backend: http://localhost:4000
 
-### 3. Login with Demo Account
-- **URL**: http://localhost:5173
-- **Username**: `demo`
-- **Password**: `demo123`
+### Environment Variables
 
-### 4. Try a Quiz
-1. Click "Technical Analysis"
-2. Study the chart
-3. Click "Up" or "Down"
-4. See your results!
+Create these files for local development:
 
-## 🎯 What We Built
-
-StoQuiz is a **stock prediction quiz game** with:
-
-### ✅ Technical Analysis Quizzes
-- Real stock charts with OHLCV data
-- 60 days of visible data
-- Predict next 10 days movement
-- Multiple stock symbols available
-
-### ✅ Fundamental Analysis Quizzes
-- Real company financial data
-- P/E ratios, EPS, revenue, margins
-- Compare fundamentals to make predictions
-
-### ✅ Robust User System
-- Sign up / Login with JWT authentication
-- Persistent auth state across page refreshes
-- User profiles with logout functionality
-- Direct URL navigation to protected pages
-
-### ✅ Modern Web App
-- Responsive design with mobile support
-- Dark mode support
-- Beautiful Tailwind CSS styling
-- Chart rendering with proper responsive sizing
-
-## 🐛 Recent Fixes & Improvements
-
-### ✅ Authentication System (Current Session)
-- **Fixed**: Multiple useAuth instances causing state inconsistency
-- **Fixed**: API call deduplication (from 5 calls to 1 call on page load)
-- **Fixed**: Profile page access from direct URLs
-- **Fixed**: Logout button functionality
-- **Fixed**: Initial loading state preventing UI flicker
-- **Implementation**: Global auth state sharing across components
-
-### ✅ Chart Rendering (Current Session)
-- **Fixed**: Candlestick chart overflow on initial load
-- **Fixed**: Chart responsive sizing with proper container detection
-- **Implementation**: Delayed chart initialization with dynamic width detection
-
-### 📊 Database (PostgreSQL)
-```bash
-# Access database
-docker-compose exec postgres psql -U postgres -d stoquiz
-
-# Common queries
-\dt                    # List tables
-SELECT * FROM "User";  # View users
-SELECT * FROM "Quiz";  # View quizzes
+**backend/.env**
+```env
+NODE_ENV=development
+DATABASE_URL="postgresql://postgres:password@localhost:5432/stoquiz"
+JWT_SECRET="your-jwt-secret-here"
+CORS_ORIGIN="http://localhost:5173"
+PORT=4000
 ```
 
-## 🔧 Development Commands
-
-### Rebuild Everything
-```bash
-docker-compose up --build --force-recreate
+**frontend/.env**
+```env
+VITE_API_URL="http://localhost:4000"
 ```
 
-### Check Container Logs
-```bash
-docker logs stoquiz-backend
-docker logs stoquiz-frontend
-docker logs stoquiz-postgres
+## 🚀 Production Deployment
+
+### 1. Deploy Backend to Railway
+
+1. Go to [railway.app](https://railway.app)
+2. Import your GitHub repository
+3. Railway will auto-detect Node.js project
+4. Add PostgreSQL database service
+5. Configure environment variables:
+   ```
+   NODE_ENV=production
+   DATABASE_URL=[from PostgreSQL service]
+   JWT_SECRET=[generate secure secret]
+   CORS_ORIGIN=https://stoquiz.vercel.app
+   PORT=8080
+   ```
+6. Deploy - Railway will automatically run database migrations
+
+### 2. Deploy Frontend to Vercel
+
+1. Go to [vercel.com](https://vercel.com)
+2. Import your GitHub repository
+3. Configure:
+   - Framework: Vite
+   - Root Directory: `frontend`
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+4. Add environment variable:
+   ```
+   VITE_API_URL=https://stoquiz-backend-production.up.railway.app
+   ```
+5. Deploy
+
+## 🎯 Key Features
+
+### User Management
+- User registration and login
+- JWT-based authentication
+- Profile management
+- Score tracking
+
+### Quiz System
+- Two quiz types: Technical Analysis & Fundamental Analysis
+- Real stock market data integration
+- Dynamic quiz generation
+- Timer-based questions
+- Immediate feedback
+
+### Leaderboard
+- Global leaderboard
+- Score sorting by highest first
+- User rankings
+
+### Stock Data
+- Real OHLCV (Open, High, Low, Close, Volume) data
+- Fundamental metrics (PE ratio, EPS, etc.)
+- Multiple exchanges support
+
+## 🗂️ Project Structure
+
+```
+StoQuiz/
+├── frontend/                 # React frontend
+│   ├── src/
+│   │   ├── components/       # Reusable components
+│   │   │   ├── CandlestickChart.tsx
+│   │   │   ├── LoadingSpinner.tsx
+│   │   │   ├── Navbar.tsx
+│   │   │   └── UserButton.tsx
+│   │   ├── pages/           # Page components
+│   │   │   ├── AuthPage.tsx
+│   │   │   ├── HomePage.tsx
+│   │   │   ├── LeaderboardPage.tsx
+│   │   │   ├── ProfilePage.tsx
+│   │   │   └── QuizPage.tsx
+│   │   ├── hooks/           # Custom React hooks
+│   │   │   └── useAuth.tsx
+│   │   ├── utils/           # Utility functions
+│   │   │   └── api.ts
+│   │   └── types/           # TypeScript types
+│   ├── public/
+│   └── package.json
+├── backend/                  # Node.js backend
+│   ├── src/
+│   │   ├── routes/          # API routes
+│   │   │   ├── auth.ts
+│   │   │   └── quiz.ts
+│   │   ├── services/        # Business logic
+│   │   │   ├── authService.ts
+│   │   │   └── quizService.ts
+│   │   ├── middleware/      # Express middleware
+│   │   │   └── errorHandler.ts
+│   │   ├── utils/           # Utility functions
+│   │   │   └── migrate.ts   # Database migration
+│   │   └── config/          # Configuration files
+│   │       └── production.ts
+│   ├── prisma/              # Database schema
+│   │   └── schema.prod.prisma
+│   └── package.json
+├── DEPLOYMENT-STEP-BY-STEP.md # Detailed deployment guide
+├── railway.toml              # Railway configuration
+└── package.json              # Root package.json
 ```
 
-### Access Container Shell
+## 🔧 Database Schema
+
+The application uses PostgreSQL with the following main tables:
+- `users` - User accounts
+- `quizzes` - Quiz questions and data
+- `user_scores` - User quiz results
+- `stocks` - Stock information
+- `ohlcv` - Price data (candlestick charts)
+- `fundamentals` - Fundamental metrics
+
+## 🛠️ Development Commands
+
 ```bash
-docker exec -it stoquiz-backend sh
-docker exec -it stoquiz-frontend sh
-docker exec -it stoquiz-postgres psql -U postgres -d stoquiz
+# Frontend
+cd frontend
+npm run dev          # Start dev server
+npm run build        # Build for production
+npm run preview      # Preview production build
+
+# Backend
+cd backend
+npm run dev          # Start dev server with hot reload
+npm run build        # Compile TypeScript
+npm run start        # Start production server
+npm run db:push      # Push schema to database
+npm run db:studio    # Open Prisma Studio
 ```
 
-## 🎮 Test the Full Flow
+## 📝 Recent Updates (Latest Session - December 9, 2024)
 
-1. **Sign up** with new account
+### Fixes Applied:
+1. **TypeScript Build Errors** - Fixed compilation issues for Vercel deployment
+   - Created `frontend/src/vite-env.d.ts` for environment variable types
+   - Disabled `noUnusedLocals` and `noUnusedParameters` in tsconfig.json
+   - Fixed useEffect return type in useAuth hook
+
+2. **CORS Configuration** - Properly configured for Vercel frontend
+   - Updated CORS_ORIGIN to `https://stoquiz.vercel.app`
+   - Fixed trust proxy for Railway's reverse proxy
+
+3. **Database Migration** - Added automatic database setup on deployment
+   - Created `backend/src/utils/migrate.ts` for automatic migrations
+   - Integrated migration into application startup
+   - Added database connection wait logic
+
+4. **Environment Variables** - Configured for production environment
+   - Fixed VITE_API_URL configuration (removed trailing slash)
+   - Added debugging logs to verify API URL
+
+5. **Deployment Configuration** - Fixed Railway deployment
+   - Updated railway.toml configuration
+   - Fixed duplicate deploy sections
+   - Removed unnecessary migration script
+
+### Key Changes:
+- Frontend now builds successfully on Vercel
+- Backend automatically creates database tables on startup
+- CORS properly configured for cross-origin requests
+- Database connection waits for PostgreSQL to be ready
+
+## 🎮 How to Test
+
+1. **Sign up** with a new account
 2. **Login** with credentials
-3. **Technical Analysis**: Take chart-based quiz
-4. **Fundamental Analysis**: Take financial data quiz
-5. **Submit answers** and view results
-6. **Navigate directly** to /profile (should work now)
-7. **Check leaderboard** and progress
-8. **Logout** from profile page
+3. **Take a Technical Analysis Quiz**: Study chart and predict movement
+4. **Take a Fundamental Analysis Quiz**: Analyze financial metrics
+5. **Check Leaderboard**: See how you rank against others
+6. **View Profile**: Manage your account and logout
 
-## 📱 Demo Credentials
+## 🆘 Getting Help
 
-| Username | Password |
-|----------|----------|
-| demo     | demo123  |
-| abcde    | abcde123 |
+- Check [DEPLOYMENT-STEP-BY-STEP.md](DEPLOYMENT-STEP-BY-STEP.md) for detailed deployment instructions
+- Review [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues
+- Check the [GitHub repository](https://github.com/JoshuaValentineM/stoquiz) for the latest code
 
-## 🎨 Features Working
+## 🎉 Project Status
 
-### Core Features
-- ✅ User authentication with persistent state
-- ✅ Technical analysis quiz with responsive charts
-- ✅ Fundamental analysis quiz with real financials
-- ✅ Answer submission and validation
-- ✅ Score calculation (100 points per correct answer)
-- ✅ Leaderboard system
-- ✅ User profile management
-
-### UI/UX Features
-- ✅ Responsive design for all screen sizes
-- ✅ Dark mode toggle
-- ✅ Chart rendering without overflow
-- ✅ Loading states and proper error handling
-- ✅ Direct URL navigation to protected routes
-- ✅ Docker containerization
-
-### Technical Improvements (Current Session)
-- ✅ Global auth state management with listener pattern
-- ✅ API call optimization and deduplication
-- ✅ Proper loading state implementation
-- ✅ Chart responsive sizing fixes
-- ✅ Component isolation prevention
-
-## 🚀 Next Development Steps
-
-1. Add quiz history tracking
-2. Implement streak tracking and badges
-3. Add more stock symbols and sectors
-4. Create advanced quiz types
-5. Add real-time leaderboard updates
-6. Implement social features
-7. Deploy to production
+**Status**: ✅ Production Ready!
+- Frontend deployed on Vercel
+- Backend deployed on Railway
+- Database automatically configured
+- All core features working
 
 ## 🔍 Key Technical Files
 
-- `frontend/src/hooks/useAuth.tsx` - Centralized auth state management
-- `frontend/src/components/CandlestickChart.tsx` - Responsive chart component
-- `frontend/src/pages/ProfilePage.tsx` - User profile with logout
-- `frontend/src/utils/api.ts` - API client with auth interceptors
+- `frontend/src/hooks/useAuth.tsx` - Global auth state management
+- `frontend/src/utils/api.ts` - API client with interceptors
+- `frontend/src/vite-env.d.ts` - TypeScript environment types
+- `backend/src/utils/migrate.ts` - Database migration utility
+- `backend/src/index.ts` - Express server with auto-migration
+- `railway.toml` - Railway deployment configuration
 
----
-**Project Status**: ✅ Production-ready with robust authentication and responsive UI!
+## 🚀 Next Steps
+
+1. Set up monitoring and analytics
+2. Add more quiz categories
+3. Implement social features
+4. Add real-time leaderboards
+5. Create admin dashboard for quiz management

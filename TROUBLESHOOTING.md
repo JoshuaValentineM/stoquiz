@@ -1,6 +1,143 @@
 # StoQuiz - Troubleshooting Guide
 
-## 🚨 Common Issues & Solutions
+## 🚨 Production Deployment Issues
+
+### Vercel Deployment Errors
+
+#### Problem: TypeScript Build Failures
+**Error Messages**:
+- `TS6133: 'React' is declared but its value is never read`
+- `TS2345: Argument of type '() => () => boolean' is not assignable to parameter of type 'EffectCallback'`
+- `TS2339: Property 'env' does not exist on type 'ImportMeta'`
+
+**Solutions**:
+1. Create `frontend/src/vite-env.d.ts`:
+```typescript
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+```
+
+2. Update `frontend/tsconfig.json`:
+```json
+{
+  "compilerOptions": {
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  }
+}
+```
+
+3. Fix useEffect return type in `frontend/src/hooks/useAuth.tsx`:
+```typescript
+useEffect(() => {
+  const update = () => forceUpdate({})
+  globalAuthState.listeners.add(update)
+  return () => {
+    globalAuthState.listeners.delete(update)
+  }
+}, [])
+```
+
+### Railway Deployment Errors
+
+#### Problem: Build Fails - Missing Script
+**Error**: `npm error Missing script: "railway:start"`
+**Solution**: Railway.toml had duplicate deploy sections. Ensure only one `[deploy]` section exists.
+
+#### Problem: Database Connection Errors
+**Error Messages**:
+- `The table 'public.users' does not exist in the current database`
+- `FATAL: the database system is starting up`
+
+**Solution**: The database migration was integrated into the application startup. Ensure `backend/src/utils/migrate.ts` exists and is imported in `index.ts`.
+
+#### Problem: CORS Errors
+**Error**: `Access-Control-Allow-Origin` header has a value 'http://localhost:5173'`
+**Solution**: Update Railway environment variables:
+```
+CORS_ORIGIN=https://stoquiz.vercel.app
+```
+
+#### Problem: Trust Proxy Warning
+**Error**: `ValidationError: The 'X-Forwarded-For' header is set but the Express 'trust proxy' setting is false`
+**Solution**: Add to `backend/src/index.ts`:
+```typescript
+app.set('trust proxy', 1)
+```
+
+### Environment Variable Issues
+
+#### Problem: API Calls to Wrong URL
+**Symptoms**: API calls going to `https://stoquiz.vercel.app/api/...` instead of Railway backend
+**Solution**: Check Vercel environment variable:
+```
+VITE_API_URL=https://stoquiz-backend-production.up.railway.app
+```
+- Must include `https://`
+- No trailing slash
+- Exact Railway URL
+
+#### Problem: DATABASE_URL Format
+**Solution**: Use Railway's private networking for production:
+```
+postgresql://postgres:YOUR_PASSWORD@postgres.railway.internal:5432/railway
+```
+
+## 🔍 Debugging Production Issues
+
+### Check Vercel Configuration
+1. Go to Vercel → StoQuiz → Settings → Environment Variables
+2. Verify `VITE_API_URL` is set correctly
+3. Check deployment logs for build errors
+
+### Check Railway Configuration
+1. Go to Railway → Backend Service → Settings → Variables
+2. Verify all required variables:
+   - `NODE_ENV=production`
+   - `DATABASE_URL` (from PostgreSQL service)
+   - `JWT_SECRET` (secure secret)
+   - `CORS_ORIGIN=https://stoquiz.vercel.app`
+   - `PORT=8080`
+
+### Check Railway Logs
+1. Go to Railway → Backend Service → Logs
+2. Look for migration logs:
+   - `=== Starting Migration Script ===`
+   - `Database connected successfully!`
+   - `Database schema created successfully!`
+
+### Test API Endpoints
+```bash
+# Test backend health
+curl https://stoquiz-backend-production.up.railway.app/health
+
+# Expected response
+{"status":"OK","timestamp":"2024-12-09T...Z"}
+```
+
+### Database Verification
+1. Go to Railway → PostgreSQL service
+2. Click "Console" tab
+3. Run:
+```sql
+-- Check tables exist
+\dt
+
+-- Check users
+SELECT COUNT(*) FROM users;
+
+-- Check recent scores
+SELECT * FROM user_scores ORDER BY createdAt DESC LIMIT 5;
+```
+
+## 🐛 Common Development Issues
 
 ### Docker Issues
 
@@ -46,9 +183,6 @@ server: {
 }
 ```
 
-#### Problem: CORS errors
-**Solution**: Backend CORS configured for http://localhost:5173
-
 ### Backend Issues
 
 #### Problem: TypeScript compilation errors
@@ -78,7 +212,7 @@ docker-compose exec postgres psql -U postgres -d stoquiz
 #### Problem: Database empty
 **Solution**: Create demo data via API endpoints
 
-### Authentication Issues (Current Session Fixes)
+### Authentication Issues
 
 #### Problem: UI flickers between "Sign In" and username on page load
 **Cause**: Multiple useAuth instances with inconsistent state timing
@@ -88,32 +222,10 @@ docker-compose exec postgres psql -U postgres -d stoquiz
 - Race conditions between component initialization
 
 **Solution**: Implemented global auth state management in `useAuth.tsx`
-```typescript
-// Global auth state to share across components
-let globalAuthState = {
-  user: null as User | null,
-  token: null as string | null,
-  isLoading: true as boolean, // Start with true to ensure auth check completes
-  listeners: new Set<() => void>(),
-  initialized: false as boolean,
-  fetchingUser: false as boolean,
-}
-```
 
 #### Problem: Can't access /profile page directly via URL
 **Cause**: Profile page redirects to /auth before authentication completes
-**Symptoms**:
-- Direct navigation to `/profile` redirects to `/auth`
-- Works when clicking navbar button but not URL entry
-- Race condition between auth loading and route protection
-
 **Solution**: Proper loading state management
-```typescript
-// Only redirect if definitely no user and not loading
-if (!user && !isLoading) {
-  navigate('/auth')
-}
-```
 
 #### Problem: Logout button on profile page doesn't work
 **Cause**: Logout function not imported from useAuth hook
@@ -122,178 +234,133 @@ if (!user && !isLoading) {
 const { user, isLoading, isAuthenticated, logout } = useAuth()
 ```
 
-#### Problem: Page shows "Loading StoQuiz..." forever
-**Cause**: Over-aggressive duplicate prevention in fetchUser function
-**Solution**: Balance between deduplication and allowing actual API calls
-
 ## 🔧 Debugging Commands
 
-### Check All Services
+### Production
 ```bash
-docker-compose ps
-docker-compose logs
+# Test Vercel frontend
+curl -I https://stoquiz.vercel.app
+
+# Test Railway backend
+curl https://stoquiz-backend-production.up.railway.app/health
+
+# Test API with auth
+curl -X POST https://stoquiz-backend-production.up.railway.app/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"youruser","password":"yourpass"}'
 ```
 
-### Check Individual Services
+### Development
 ```bash
+# Check all services
+docker-compose ps
+docker-compose logs
+
+# Check individual services
 curl http://localhost:4000/health
 curl http://localhost:5173
 curl http://localhost:4000/api/quiz/leaderboard
-```
 
-### Database Operations (PostgreSQL)
-```bash
-# Access database
+# Database operations
 docker-compose exec postgres psql -U postgres -d stoquiz
-
-# Check tables
-\dt
-
-# View users
-SELECT * FROM "User";
-
-# View quizzes
-SELECT * FROM "Quiz" LIMIT 10;
-
-# Reset database (DANGEROUS - deletes all data)
-docker-compose down -v
-docker-compose up --build
-```
-
-### Frontend Development
-```bash
-# Check Vite config
-docker exec stoquiz-frontend cat /app/frontend/vite.config.ts
-
-# Check mounted files
-docker exec stoquiz-frontend ls -la /app/frontend/
-```
-
-### Backend Development
-```bash
-# Check environment
-docker exec stoquiz-backend env | grep NODE_ENV
-
-# Test API endpoints
-curl -X POST http://localhost:4000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username": "demo", "password": "demo123"}'
 ```
 
 ## 🔄 Reset Procedures
 
-### Full Reset
+### Production Reset
+**⚠️ WARNING: This deletes all user data**
+1. Go to Railway → PostgreSQL service
+2. Click "Settings" → "Danger Zone" → "Reset Database"
+3. Redeploy backend to recreate tables
+
+### Development Full Reset
 ```bash
 docker-compose down -v
 docker system prune -f
 docker-compose up --build
 ```
 
-### Database Reset Only
+### Database Reset Only (Development)
 ```bash
 # WARNING: Deletes all data including users and quiz history
 docker-compose down -v
 docker-compose up --build --force-recreate
 ```
 
-### Frontend Reset Only
+## 📝 Environment Setup Checklist
+
+### Production Checklist
+- [ ] Vercel: `VITE_API_URL` set to Railway backend URL
+- [ ] Railway: `NODE_ENV=production`
+- [ ] Railway: `DATABASE_URL` from PostgreSQL service
+- [ ] Railway: `JWT_SECRET` (secure, not default)
+- [ ] Railway: `CORS_ORIGIN=https://stoquiz.vercel.app`
+- [ ] Railway: `PORT=8080`
+- [ ] Frontend builds without TypeScript errors
+- [ ] Backend connects to database
+- [ ] Database tables created automatically
+- [ ] CORS properly configured
+- [ ] API endpoints accessible
+- [ ] Authentication working end-to-end
+
+### Development Checklist
+- [ ] Docker containers running
+- [ ] Frontend accessible at localhost:5173
+- [ ] Backend accessible at localhost:4000
+- [ ] Database accessible at localhost:5433
+- [ ] API endpoints responding
+- [ ] Authentication flow working
+
+## 🎯 Quick Health Checks
+
+### Production Health Check
+1. **Frontend**: Visit https://stoquiz.vercel.app
+2. **Backend API**: Check /health endpoint
+3. **Database**: Verify tables exist in Railway console
+4. **Auth**: Test signup/login flow
+5. **CORS**: Check browser network tab for CORS errors
+
+### Development Health Check
 ```bash
-docker-compose restart frontend
-# Clear browser localStorage if needed
-```
-
-### Backend Reset Only
-```bash
-docker-compose restart backend
-```
-
-## 📝 Environment Setup
-
-### Required Files
-- `backend/.env` (optional, uses defaults if missing)
-- Frontend uses VITE_API_URL from docker-compose.yml
-
-### Port Conflicts
-- Frontend: 5173
-- Backend: 4000
-- Database: 5433 (PostgreSQL)
-
-## 🎯 Quick Health Check
-
-### 1. Verify Containers Running
-```bash
+# 1. Verify containers running
 docker ps | grep stoquiz
-```
 
-### 2. Test Endpoints
-```bash
-# Backend health
+# 2. Test endpoints
 curl http://localhost:4000/health
-
-# Frontend accessible
 curl -I http://localhost:5173
 
-# API working
-curl http://localhost:4000/api/quiz/leaderboard
-```
-
-### 3. Test Login
-```bash
-curl -X POST http://localhost:4000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username": "demo", "password": "demo123"}'
+# 3. Test database
+docker-compose exec postgres psql -U postgres -d stoquiz -c "\dt"
 ```
 
 ## 📞 Support Information
 
-### Project Structure
-```
-StoQuiz/
-├── backend/          # Node.js API server
-├── frontend/         # React web app
-├── db/              # Database schema and migrations
-├── docker-compose.yml # Container orchestration
-└── *.md            # Documentation files
-```
+### Project Repository
+- **URL**: https://github.com/JoshuaValentineM/stoquiz
+- **Branch**: main
+- **Documentation**: Check `.md` files in repository
 
 ### Key Technologies
 - **Frontend**: React, TypeScript, Vite, Tailwind CSS, Lightweight Charts
 - **Backend**: Node.js, Express, TypeScript, Prisma
 - **Database**: PostgreSQL with Prisma ORM
 - **Infrastructure**: Docker, Docker Compose
+- **Production**: Vercel (frontend), Railway (backend + database)
+
+### Where to Get Help
+1. Check this troubleshooting guide
+2. Review [DEPLOYMENT-STEP-BY-STEP.md](DEPLOYMENT-STEP-BY-STEP.md)
+3. Check GitHub issues for known problems
+4. Review application logs in Vercel/Railway dashboards
 
 ### Common Debugging Strategy
-1. Check container logs for errors
-2. Verify database connection with PostgreSQL commands
-3. Test API endpoints directly
-4. Check browser console for auth state logs
-5. Monitor network tab for duplicate API calls
-6. Verify localStorage for authToken presence
-7. Check file mounts in containers
+1. **Check logs first** - Vercel build logs, Railway logs, browser console
+2. **Verify environment variables** - Ensure all required variables are set
+3. **Test API endpoints directly** - Use curl or Postman
+4. **Check database connection** - Verify tables exist and are accessible
+5. **Monitor network requests** - Browser DevTools Network tab
+6. **Clear cache/cookies** - Sometimes stale data causes issues
+7. **Redeploy** - Often fixes transient issues
 
-### Debugging Authentication Issues
-1. **Check browser console** for auth state logs:
-   - Look for `🔍 useAuth hook initialized`
-   - Check for `✅ fetchUser success` messages
-2. **Check localStorage**:
-   ```javascript
-   localStorage.getItem('authToken') // Should return token string
-   ```
-3. **Monitor Network tab**:
-   - Should see only 1 call to `/api/auth/me` on page load
-   - Check for 401 responses indicating expired tokens
-4. **Test API endpoints directly**:
-   ```bash
-   curl -H "Authorization: Bearer <token>" http://localhost:4000/api/auth/me
-   ```
-
-### Debugging Chart Issues
-1. **Check console for chart initialization logs**:
-   - Look for `📊 Initializing chart with container width`
-   - Check for `📊 Resizing chart to width` messages
-2. **Verify container dimensions**:
-   - Chart should fit within parent container
-   - No overflow into sidebar area
-3. **Test responsive behavior**:
-   - Window resize should trigger chart resize
-   - Zoom in/out should fix sizing issues
+---
+*Last Updated: December 9, 2024*
