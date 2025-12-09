@@ -1,7 +1,10 @@
 import { createError } from '../middleware/errorHandler.js'
 import type { QuizResponse, QuizAnswer, QuizResult } from '../types/index.js'
 import { technicalQuizzes, fundamentalQuizzes } from '../data/predefinedQuizzes.js'
-import prisma from '../lib/prisma.js'
+
+// Initialize PrismaClient directly
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
 export class QuizService {
   async generateTechnicalQuiz(): Promise<QuizResponse> {

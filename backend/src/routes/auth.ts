@@ -4,7 +4,10 @@ import jwt from 'jsonwebtoken'
 import { z } from 'zod'
 import { createError, errorHandler } from '../middleware/errorHandler.js'
 import type { AuthToken, User } from '../types/index.js'
-import prisma from '../lib/prisma.js'
+
+// Initialize PrismaClient directly
+const { PrismaClient } = require('@prisma/client')
+const prisma = new PrismaClient()
 
 const router: Router = express.Router()
 

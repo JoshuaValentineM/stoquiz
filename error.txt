@@ -1,0 +1,342 @@
+2025-12-09T07:47:51.000000000Z [inf]  Starting Container
+2025-12-09T07:47:53.644436136Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:47:53.644447601Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:53.644454281Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:53.644471858Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:47:53.644479638Z [inf]  > node dist/index.js
+2025-12-09T07:47:53.644486806Z [inf]  
+2025-12-09T07:47:53.644495361Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:47:53.644504307Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:47:53.644512803Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:53.644526697Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:53.644537166Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:53.644545764Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:53.644557056Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:47:53.644558927Z [inf]  
+2025-12-09T07:47:53.649104148Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:53.649113010Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:53.649117599Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:47:53.649126708Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:47:53.649136113Z [err]                ^
+2025-12-09T07:47:53.649141965Z [err]  
+2025-12-09T07:47:53.649146744Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:47:53.649150811Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:47:53.649770280Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:53.649777113Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:53.649783859Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:53.649790703Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:53.649798781Z [err]  
+2025-12-09T07:47:53.649805878Z [err]  Node.js v18.20.8
+2025-12-09T07:47:53.649813720Z [inf]  /app/backend:
+2025-12-09T07:47:53.649822336Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:47:53.649829361Z [inf]  Exit status 1
+2025-12-09T07:47:54.664680192Z [inf]  
+2025-12-09T07:47:54.664687282Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:47:54.664703477Z [inf]  > node dist/index.js
+2025-12-09T07:47:54.664710769Z [inf]  
+2025-12-09T07:47:54.664717535Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:47:54.664723466Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:47:54.664732435Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:54.664741485Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:54.664747904Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:54.664754793Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:54.664763116Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:47:54.664769359Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:47:54.664775029Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:54.664783621Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:54.664790370Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:54.664802829Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:54.664808147Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:47:54.664813116Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:47:54.664818318Z [err]                ^
+2025-12-09T07:47:54.664824138Z [err]  
+2025-12-09T07:47:54.664831924Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:47:54.664836634Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:47:54.665259772Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:54.665265589Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:54.665275425Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:54.665280821Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:54.665287775Z [err]  
+2025-12-09T07:47:54.665293557Z [err]  Node.js v18.20.8
+2025-12-09T07:47:54.665298455Z [inf]  /app/backend:
+2025-12-09T07:47:54.665303506Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:47:54.665308353Z [inf]  Exit status 1
+2025-12-09T07:47:56.669723539Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:56.669736750Z [inf]  /app/backend:
+2025-12-09T07:47:56.669738844Z [err]  
+2025-12-09T07:47:56.669749848Z [err]  Node.js v18.20.8
+2025-12-09T07:47:56.669757907Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:47:56.669770765Z [inf]  Exit status 1
+2025-12-09T07:47:56.669838201Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:56.669851061Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:56.669866871Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:56.670111047Z [inf]  
+2025-12-09T07:47:56.670115138Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:47:56.670119961Z [inf]  > node dist/index.js
+2025-12-09T07:47:56.670124477Z [inf]  
+2025-12-09T07:47:56.670128839Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:47:56.670133297Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:47:56.670145804Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:56.670149831Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:56.670155497Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:56.670159327Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:56.670163417Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:47:56.670167536Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:47:56.670172802Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:56.670177245Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:56.670181423Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:56.670185558Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:56.670189400Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:47:56.670194288Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:47:56.670198444Z [err]                ^
+2025-12-09T07:47:56.670202596Z [err]  
+2025-12-09T07:47:56.670206834Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:47:56.670210792Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:47:59.030809452Z [inf]  
+2025-12-09T07:47:59.030815747Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:47:59.030822294Z [inf]  > node dist/index.js
+2025-12-09T07:47:59.030828776Z [inf]  
+2025-12-09T07:47:59.030836470Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:47:59.030843212Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:47:59.030848975Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:59.030856625Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:59.030913794Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:59.030920479Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:59.030927563Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:47:59.030935179Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:47:59.030941263Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:59.030947743Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:59.030954961Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:59.030963573Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:59.030971536Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:47:59.030977581Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:47:59.030984486Z [err]                ^
+2025-12-09T07:47:59.030991156Z [err]  
+2025-12-09T07:47:59.030999490Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:47:59.031005446Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:47:59.992765862Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:47:59.992774432Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:47:59.992781396Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:47:59.992788111Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:47:59.992795137Z [err]  
+2025-12-09T07:47:59.992802968Z [err]  Node.js v18.20.8
+2025-12-09T07:47:59.992810039Z [inf]  /app/backend:
+2025-12-09T07:47:59.992816733Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:47:59.992825076Z [inf]  Exit status 1
+2025-12-09T07:48:00.919172784Z [inf]  
+2025-12-09T07:48:00.919178360Z [inf]  
+2025-12-09T07:48:00.919228456Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:48:00.919239028Z [inf]  > node dist/index.js
+2025-12-09T07:48:01.800653259Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:48:01.800662769Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:48:01.800671045Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:01.801008398Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:01.801019545Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:01.801024335Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:01.801367009Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:48:01.801388816Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:48:01.801399825Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:01.801407058Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:01.801413149Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:01.801421876Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:01.801428039Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:48:01.801434540Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:48:01.801440766Z [err]                ^
+2025-12-09T07:48:01.801453215Z [err]  
+2025-12-09T07:48:01.801460524Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:48:01.801469581Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:48:01.801476671Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:01.801484320Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:01.803533152Z [err]  Node.js v18.20.8
+2025-12-09T07:48:01.803540152Z [inf]  /app/backend:
+2025-12-09T07:48:01.803547575Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:48:01.803611413Z [inf]  Exit status 1
+2025-12-09T07:48:01.803641870Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:01.803654652Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:01.803662982Z [err]  
+2025-12-09T07:48:02.852874226Z [inf]  
+2025-12-09T07:48:02.852882981Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:48:02.852888467Z [inf]  > node dist/index.js
+2025-12-09T07:48:02.852894368Z [inf]  
+2025-12-09T07:48:03.846777027Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:48:03.846784169Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:48:03.846792525Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:03.846799547Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:03.846806905Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:03.846815887Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:03.846822541Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:48:03.846829748Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:48:03.846837200Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:03.846849847Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:03.846856298Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:03.846863323Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:03.846870064Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:48:03.846876728Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:48:03.846883724Z [err]                ^
+2025-12-09T07:48:03.846889661Z [err]  
+2025-12-09T07:48:03.846897016Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:48:03.846903040Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:48:03.846922163Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:03.846932994Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:03.854271494Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:03.854277248Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:03.854288012Z [err]  
+2025-12-09T07:48:03.854294964Z [err]  Node.js v18.20.8
+2025-12-09T07:48:03.854299603Z [inf]  /app/backend:
+2025-12-09T07:48:03.854304430Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:48:03.854308384Z [inf]  Exit status 1
+2025-12-09T07:48:04.859985450Z [inf]  
+2025-12-09T07:48:04.859990763Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:48:04.859996336Z [inf]  > node dist/index.js
+2025-12-09T07:48:04.860003756Z [inf]  
+2025-12-09T07:48:05.785356571Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:48:05.785366743Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:48:05.785386429Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:05.785458014Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:05.785466292Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:05.785473752Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:05.789298617Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:48:05.789310693Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:48:05.789317071Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:05.789323011Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:05.789329133Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:05.789335034Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:05.789340880Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:48:05.789347054Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:48:05.789352404Z [err]                ^
+2025-12-09T07:48:05.789359014Z [err]  
+2025-12-09T07:48:05.789366666Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:48:05.789373065Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:48:05.789392461Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:05.789398553Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:05.791573322Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:05.791581084Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:05.791588667Z [err]  
+2025-12-09T07:48:05.791595106Z [err]  Node.js v18.20.8
+2025-12-09T07:48:05.791602064Z [inf]  /app/backend:
+2025-12-09T07:48:05.791616213Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:48:05.791626351Z [inf]  Exit status 1
+2025-12-09T07:48:06.961248471Z [inf]  
+2025-12-09T07:48:06.961258608Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:48:06.961271510Z [inf]  > node dist/index.js
+2025-12-09T07:48:06.961279553Z [inf]  
+2025-12-09T07:48:07.691899281Z [err]  
+2025-12-09T07:48:07.691917422Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:48:07.691930996Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:48:07.691939761Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:07.691949271Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:07.692137597Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:48:07.692142782Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:48:07.692147501Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:07.692153714Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:07.692159561Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:07.692166001Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:07.692171640Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:48:07.692177853Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:48:07.692184014Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:07.692190122Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:07.692195803Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:07.692201535Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:07.692211783Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:48:07.692216498Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:48:07.692220923Z [err]                ^
+2025-12-09T07:48:07.696163983Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:07.696169018Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:07.696174209Z [err]  
+2025-12-09T07:48:07.696179166Z [err]  Node.js v18.20.8
+2025-12-09T07:48:07.696184100Z [inf]  /app/backend:
+2025-12-09T07:48:07.696190196Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:48:07.696195978Z [inf]  Exit status 1
+2025-12-09T07:48:09.004731277Z [inf]  
+2025-12-09T07:48:09.004739890Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:48:09.004747122Z [inf]  > node dist/index.js
+2025-12-09T07:48:09.004752569Z [inf]  
+2025-12-09T07:48:09.683283380Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:09.683292817Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:09.683303091Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:48:09.683310211Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:48:09.683318212Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:09.683327384Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:09.683335425Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:09.683342527Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:09.683351168Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:48:09.683359098Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:48:09.683369690Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:48:09.683381939Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:48:09.683384428Z [err]                ^
+2025-12-09T07:48:09.683392669Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:09.683396120Z [err]  
+2025-12-09T07:48:09.683403121Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:09.683406353Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:48:09.683416101Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:48:09.683423823Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:09.683440056Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:09.687396858Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:09.687402387Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:09.687413061Z [err]  
+2025-12-09T07:48:09.687432665Z [err]  Node.js v18.20.8
+2025-12-09T07:48:09.687439357Z [inf]  /app/backend:
+2025-12-09T07:48:09.687446598Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:48:09.687452190Z [inf]  Exit status 1
+2025-12-09T07:48:10.986042221Z [inf]  
+2025-12-09T07:48:10.986051656Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:48:10.986057295Z [inf]  > node dist/index.js
+2025-12-09T07:48:10.986063240Z [inf]  
+2025-12-09T07:48:11.812580053Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:11.812592888Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:11.813781716Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:48:11.813788709Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:48:11.813794120Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:11.813799286Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:11.813804132Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:11.813809223Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:11.813818973Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:48:11.813824827Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:48:11.813830815Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:11.813836703Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:11.813841443Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:11.813846874Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:11.813853687Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:48:11.813858522Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:48:11.813863894Z [err]                ^
+2025-12-09T07:48:11.813871776Z [err]  
+2025-12-09T07:48:11.813877471Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:48:11.813883220Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:48:11.819758195Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:11.819763892Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:11.819769477Z [err]  
+2025-12-09T07:48:11.819775115Z [err]  Node.js v18.20.8
+2025-12-09T07:48:11.819781195Z [inf]  /app/backend:
+2025-12-09T07:48:11.819824278Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:48:11.819830356Z [inf]  Exit status 1
+2025-12-09T07:48:13.930468370Z [inf]  
+2025-12-09T07:48:13.930476683Z [inf]  > @stoquiz/backend@1.0.0 start /app/backend
+2025-12-09T07:48:13.930484390Z [inf]  > node dist/index.js
+2025-12-09T07:48:13.930494933Z [inf]  
+2025-12-09T07:48:13.930502262Z [err]  Failed to initialize PrismaClient: ReferenceError: require is not defined
+2025-12-09T07:48:13.930509449Z [err]      at file:///app/backend/dist/lib/prisma.js:5:30
+2025-12-09T07:48:13.930516470Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:13.930526138Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:13.930533798Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:13.930541517Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:13.930548197Z [err]  Failed to initialize PrismaClient with fallback: ReferenceError: require is not defined
+2025-12-09T07:48:13.930554383Z [err]      at file:///app/backend/dist/lib/prisma.js:12:30
+2025-12-09T07:48:13.930561004Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:13.930567883Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:13.930580871Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:13.930587914Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:13.930594578Z [err]  file:///app/backend/dist/lib/prisma.js:17
+2025-12-09T07:48:13.930602993Z [err]          throw new Error('Could not initialize PrismaClient');
+2025-12-09T07:48:13.930610059Z [err]                ^
+2025-12-09T07:48:13.930616759Z [err]  
+2025-12-09T07:48:13.930623573Z [err]  Error: Could not initialize PrismaClient
+2025-12-09T07:48:13.930632373Z [err]      at file:///app/backend/dist/lib/prisma.js:17:15
+2025-12-09T07:48:13.930865651Z [err]      at ModuleJob.run (node:internal/modules/esm/module_job:195:25)
+2025-12-09T07:48:13.930875679Z [err]      at async ModuleLoader.import (node:internal/modules/esm/loader:337:24)
+2025-12-09T07:48:13.930883478Z [err]      at async loadESM (node:internal/process/esm_loader:34:7)
+2025-12-09T07:48:13.930889663Z [err]      at async handleMainPromise (node:internal/modules/run_main:106:12)
+2025-12-09T07:48:13.930898367Z [err]  
+2025-12-09T07:48:13.930905983Z [err]  Node.js v18.20.8
+2025-12-09T07:48:13.930912587Z [inf]  /app/backend:
+2025-12-09T07:48:13.930919085Z [inf]   ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @stoquiz/backend@1.0.0 start: `node dist/index.js`
+2025-12-09T07:48:13.930926537Z [inf]  Exit status 1
