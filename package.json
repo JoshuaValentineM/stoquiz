@@ -14,7 +14,10 @@
     "test": "pnpm --filter backend test && pnpm --filter frontend test",
     "lint": "pnpm --filter backend lint && pnpm --filter frontend lint",
     "type-check": "pnpm --filter backend type-check && pnpm --filter frontend type-check",
-    "clean": "pnpm --filter backend clean && pnpm --filter frontend clean"
+    "clean": "pnpm --filter backend clean && pnpm --filter frontend clean",
+    "start": "cd backend && node dist/index.js",
+    "railway:start": "cd backend && node dist/index.js",
+    "build:railway": "cd backend && pnpm run build"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
