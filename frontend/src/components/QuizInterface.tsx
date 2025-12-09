@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
@@ -14,6 +14,7 @@ interface QuizInterfaceProps {
 
 export function QuizInterface({ quiz }: QuizInterfaceProps) {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
   const [selectedAnswer, setSelectedAnswer] = useState<'up' | 'down' | null>(null)
   const [showResult, setShowResult] = useState(false)
   const [result, setResult] = useState<QuizResult | null>(null)
@@ -31,6 +32,9 @@ export function QuizInterface({ quiz }: QuizInterfaceProps) {
         setResult(data)
         setShowResult(true)
         toast.success(`Answer submitted! ${data.correct ? '✅ Correct!' : '❌ Incorrect'}`)
+
+        // Invalidate leaderboard cache to refresh data
+        queryClient.invalidateQueries('leaderboard')
       },
       onError: (error: any) => {
         console.log('❌ Quiz submission error:', error)

@@ -1,22 +1,53 @@
 import React from 'react'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { motion } from 'framer-motion'
 import { quizAPI } from '../utils/api'
 import { LoadingSpinner } from '../components/LoadingSpinner'
 import type { LeaderboardEntry } from '../types'
 
 export function LeaderboardPage() {
+  const queryClient = useQueryClient()
+
   const {
     data: leaderboard = [],
     isLoading,
-    error
+    error,
+    refetch
   } = useQuery(
     'leaderboard',
     () => quizAPI.getLeaderboard(50),
     {
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 30 * 1000, // 30 seconds (reduced from 5 minutes)
+      cacheTime: 2 * 60 * 1000, // 2 minutes cache time
     }
   )
+
+  // Auto-refresh when page gets focus
+  React.useEffect(() => {
+    const handleFocus = () => {
+      refetch()
+    }
+
+    // Listen for visibility changes
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        refetch()
+      }
+    }
+
+    window.addEventListener('focus', handleFocus)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [refetch])
+
+  // Invalidate leaderboard cache when user navigates to this page
+  React.useEffect(() => {
+    queryClient.invalidateQueries('leaderboard')
+  }, [queryClient])
 
   if (isLoading) {
     return (
@@ -51,9 +82,24 @@ export function LeaderboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          🏆 Leaderboard
-        </h1>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            🏆 Leaderboard
+          </h1>
+          <button
+            onClick={() => refetch()}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium flex items-center gap-2"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <>
+                🔄 Refresh
+              </>
+            )}
+          </button>
+        </div>
 
         {leaderboard.length === 0 ? (
           <div className="quiz-card text-center">
