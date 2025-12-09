@@ -18,6 +18,9 @@ if (process.env.NODE_ENV === 'production') {
 const app = express()
 const PORT = process.env.PORT || 4000
 
+// Trust proxy for Railway's reverse proxy
+app.set('trust proxy', 1)
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
