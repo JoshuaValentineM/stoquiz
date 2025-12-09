@@ -14,6 +14,7 @@
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist",
     "db:generate": "prisma generate --schema=./prisma/schema.prod.prisma",
+    "generate:prod": "prisma generate --schema=./prisma/schema.prod.prisma",
     "db:migrate": "prisma migrate dev --schema=./prisma/schema.prod.prisma",
     "db:push": "prisma db push --schema=./prisma/schema.prod.prisma",
     "db:studio": "prisma studio --schema=./prisma/schema.prod.prisma"
