@@ -200,7 +200,7 @@ export class QuizService {
 
     // Get user details and correct answers count
     const results = await Promise.all(
-      leaderboard.map(async (entry) => {
+      leaderboard.map(async (entry: { userId: string; _count: { id: number } }) => {
         const user = await prisma.user.findUnique({
           where: { id: entry.userId },
           select: {
